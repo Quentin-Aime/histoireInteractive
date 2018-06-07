@@ -25,6 +25,7 @@
 	var time = null;
 	var timeOut = null;
 	var player;
+	console.log(map)
 
 	function changeMap(id) {
 		currentMap = map[id];
@@ -32,6 +33,7 @@
 		player = game.add.sprite(currentMap.startingX, currentMap.startingY, 'dude');
 		game.physics.arcade.enable(player);
 		player.body.collideWorldBounds = true;
+		textDiv.textContent = currentMap.text;
 		var time = null;
 		if (timeOut != null) {
 			window.clearTimeout(timeOut);
@@ -53,8 +55,7 @@
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		music = game.add.sound('ambient', 0.5, true);
 		music.play();
-/*		docks = game.add.image(0, 0, map[1].name):
-*/		game.add.image(0, 0, map[1].name);
+		game.add.image(0, 0, map[1].name);
 
     	player = game.add.sprite(map[1].startingX, map[1].startingY, 'dude');
     	game.physics.arcade.enable(player);
@@ -103,7 +104,7 @@
 		else if (currentMap.functionsCalled[0] == 'theEnd') {
 			window.setTimeout(function() {
 				end.style.display = "block";
-			}, 5000)
+			}, 7000)
 		}
 		for (var i = 0; i < currentMap.exits.length; i++) {
 			if (player.x >= currentMap.exits[i][0]
