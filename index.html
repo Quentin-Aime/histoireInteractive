@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Front-end-starter</title>
+    <link rel="stylesheet" href="src/css/reset.css" />
+    <link rel="stylesheet" href="src/css/style.css" />
+</head>
+<body>
+	<div class="text"></div>
+	<div class="died">
+		<p class="diedText">YOU DIED</p>
+	</div>
+	<div class="theEnd">
+		<p class="theEndText">The End !<br>(If we suppose that you do every thing right until the end)<br>The adventure is still being built</p>
+	</div>
+<script type="text/javascript" src="./src/js/data.js"></script>
+<script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
+<script>
+
+	var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+	var currentMap = map[1];
+	var textDiv = document.querySelector('.text');
+	var end = document.querySelector('.theEnd');
+	var time = null;
+	var timeOut = null;
+	var player;
+
+	function changeMap(id) {
+		currentMap = map[id];
+		game.add.image(0, 0, currentMap.name);
+		player = game.add.sprite(currentMap.startingX, currentMap.startingY, 'dude');
+		game.physics.arcade.enable(player);
+		player.body.collideWorldBounds = true;
+		var time = null;
+		if (timeOut != null) {
+			window.clearTimeout(timeOut);
+		}
+	}
+
+	function preload ()
+	{
+		game.load.image('docks', 'src/img/docks.png');
+		game.load.image('fields', 'src/img/fields.png');
+		game.load.image('dungeon', 'src/img/dungeon.png');
+	    game.load.image('dude', 
+	        'src/img/dude.png');
+	    game.load.audio('ambient', 'src/sound/Overworld.wav');
+	}
+
+	function create ()
+	{
+		game.physics.startSystem(Phaser.Physics.ARCADE);
+		music = game.add.sound('ambient', 0.5, true);
+		music.play();
+/*		docks = game.add.image(0, 0, map[1].name):
+*/		game.add.image(0, 0, map[1].name);
+
+    	player = game.add.sprite(map[1].startingX, map[1].startingY, 'dude');
+    	game.physics.arcade.enable(player);
+    	player.body.collideWorldBounds = true;
+    	keys = game.input.keyboard.createCursorKeys();
+    	textDiv.textContent = currentMap.text;
+	}
+
+	function update ()
+	{
+	    if (keys.left.isDown)
+		    {
+		    	player.left -= 6;
+				console.log(player.x)
+				console.log(player.y)
+
+		    }
+	    if (keys.right.isDown)
+		    {
+		    	player.right += 6;
+				console.log(player.x)
+				console.log(player.y)
+
+		    }
+
+	    if (keys.up.isDown)
+		    {
+		    	player.top -= 6;
+				console.log(player.x)
+				console.log(player.y)
+
+		    }
+	    if (keys.down.isDown)
+		    {
+		    	player.bottom += 6;
+				console.log(player.x)
+				console.log(player.y)
+
+		    }
+		if (currentMap.functionsCalled[0] == 'timeout' && time == null) {
+			time = currentMap.functionsCalled[1][0];
+			timeOut = window.setTimeout(function() {
+				changeMap(currentMap.functionsCalled[1][1]);
+			}, time*1000)
+		}
+		else if (currentMap.functionsCalled[0] == 'theEnd') {
+			window.setTimeout(function() {
+				end.style.display = "block";
+			}, 5000)
+		}
+		for (var i = 0; i < currentMap.exits.length; i++) {
+			if (player.x >= currentMap.exits[i][0]
+				&& player.x <= currentMap.exits[i][1]
+				&& player.y >= currentMap.exits[i][2]
+				&& player.y <= currentMap.exits[i][3]) {
+				changeMap(currentMap.exitDest[i]);
+			}
+		}
+	}
+</script>
+</body>
+</html>
