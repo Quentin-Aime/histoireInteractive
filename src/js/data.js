@@ -82,7 +82,7 @@ var map = {
 		exits: [], //xmin, xmax, ymin, ymax
 		exitDest: [], //id de la map
 		text: 'Vous vous reposez sous l\'ombre de la végétation, mais ce n\'est qu\'une fois emprisonné dans un filet que vous vous \
-		rendez compte que c\' était une ambuscade. Vous vous retrouvez en prison.',
+		rendez compte que c\' était une embuscade. Vous vous retrouvez en prison.',
 		changes: '',
 		// pnj: [], // [x y sprite] on verra plus tard
 		functionsCalled: ['theEnd'] // function, [args]
